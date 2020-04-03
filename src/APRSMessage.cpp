@@ -49,25 +49,29 @@ bool APRSMessage::decode(const String & message)
 {
 	int pos_src = message.indexOf('>');
 	_source = message.substring(0, pos_src);
+	int pos_dest = message.indexOf(',');
+	_destination = message.substring(pos_src+1, pos_dest);
 	int pos_path = message.indexOf(':');
-	_path = message.substring(pos_src + 1, pos_path);
-	int path_spliter = _path.indexOf(',');
-	_destination = _path.substring(0, path_spliter);
-	if(path_spliter != -1)
-	{
-		_path = _path.substring(_path.indexOf(',') + 1);
-	}
-	else
-	{
-		_path = "";
-	}
-	_body->decode(message.substring(pos_path + 1));
+	_path = message.substring(pos_dest+1, pos_path);
+	_body->decode(message.substring(pos_path+1));
 	return true;
+}
+
+String APRSMessage::encode() const
+{
+	String msg;
+	msg = _source + ">" + _destination;
+	if(!_path.isEmpty())
+	{
+		msg = msg + "," + _path;
+	}
+	msg = msg  + ":" + _body->encode() + "\n";
+	return msg;
 }
 
 String APRSMessage::toString() const
 {
-	return "Source: \"" + _source + "\", Destination: \"" + _destination + "\", Path: \"" + _path + "\", " + _body->toString();
+	return "Source: " + _source + ", Destination: " + _destination + ", Path: " + _path + ", " + _body->toString();
 }
 
 /*
@@ -111,13 +115,23 @@ String APRSBody::getData() const
 	return _data;
 }
 
+void APRSBody::setData(const String & data)
+{
+	_data = data;
+}
+
 bool APRSBody::decode(const String & message)
 {
 	_data = message;
 	return true;
 }
 
+String APRSBody::encode() const
+{
+	return _data;
+}
+
 String APRSBody::toString() const
 {
-	return "Data: \"" + _data + "\"";
+	return "Data: " + _data;
 }

@@ -13,6 +13,7 @@ public:
 	void setData(const String & data);
 
 	virtual bool decode(const String & message);
+	virtual String encode() const;
 	virtual String toString() const;
 
 private:
@@ -37,6 +38,7 @@ public:
 	APRSBody * const getAPRSBody();
 
 	virtual bool decode(const String & message);
+	virtual String encode() const;
 	virtual String toString() const;
 
 	/*
