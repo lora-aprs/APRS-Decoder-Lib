@@ -1,3 +1,2 @@
-*.o
-*.out
-*.vscode
+.pio
+.vscode
