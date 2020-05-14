@@ -11,4 +11,4 @@ install:
     - pip install -U platformio
     - platformio update
 script:
-    - platformio ci --lib="." --board=ttgo-lora32-v1
+    - platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini
