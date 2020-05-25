@@ -12,5 +12,5 @@ install:
     - platformio update
     - cd ~ && git clone https://github.com/bxparks/UnixHostDuino.git && cd -
 script:
-    - platformio ci --lib="." --board=ttgo-lora32-v1
+    - platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini
     - cd examples/basic_decode && make clean && make && ls -al && cd -
