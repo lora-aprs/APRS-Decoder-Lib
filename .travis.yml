@@ -10,5 +10,7 @@ env:
 install:
     - pip install -U platformio
     - platformio update
+    - cd ~ && git clone https://github.com/bxparks/UnixHostDuino.git && cd -
 script:
     - platformio ci --lib="." --board=ttgo-lora32-v1
+    - cd examples/basic_decode && make clean && make && ls -al && cd -

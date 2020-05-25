@@ -3,4 +3,4 @@
 
 APP_NAME := basic_decode
 ARDUINO_LIBS := APRS-Decoder-Lib
-include ~/Arduino/libraries/UnixHostDuino/UnixHostDuino.mk
+include ~/UnixHostDuino/UnixHostDuino.mk
