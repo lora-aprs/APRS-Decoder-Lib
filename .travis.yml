@@ -11,5 +11,6 @@ install:
     - pip install -U platformio
     - platformio update
 script:
-    - platformio check
+    - platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high
     - platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini
+    - platformio test -e native
