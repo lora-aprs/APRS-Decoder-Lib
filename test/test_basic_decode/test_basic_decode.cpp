@@ -56,6 +56,30 @@ void test5()
 	TEST_ASSERT_EQUAL_STRING("!1418.68N/04819.82E_.../...g...t050r...p...P...h00b......DHT22", msg.getAPRSBody()->getData().c_str());
 }
 
+void copy_test()
+{
+	String message = "VK2ABC-9>APOTC1,WIDE1-1,WIDE2-1,qAR,VK2BLR:/184701h1234.12S/12345.12E>/A=001074 13.6V 27C    DD Com Nicsan";
+	APRSMessage msg_old;
+	msg_old.decode(message);
+	APRSMessage msg(msg_old);
+	TEST_ASSERT_EQUAL_STRING("VK2ABC-9", msg.getSource().c_str());
+	TEST_ASSERT_EQUAL_STRING("WIDE1-1,WIDE2-1,qAR,VK2BLR", msg.getPath().c_str());
+	TEST_ASSERT_EQUAL_STRING("APOTC1", msg.getDestination().c_str());
+	TEST_ASSERT_EQUAL_STRING("/184701h1234.12S/12345.12E>/A=001074 13.6V 27C    DD Com Nicsan", msg.getAPRSBody()->getData().c_str());
+}
+
+void assignment_test()
+{
+	String message = "VK2ABC-9>APOTC1,WIDE1-1,WIDE2-1,qAR,VK2BLR:/184701h1234.12S/12345.12E>/A=001074 13.6V 27C    DD Com Nicsan";
+	APRSMessage msg_old;
+	msg_old.decode(message);
+	APRSMessage msg = msg_old;
+	TEST_ASSERT_EQUAL_STRING("VK2ABC-9", msg.getSource().c_str());
+	TEST_ASSERT_EQUAL_STRING("WIDE1-1,WIDE2-1,qAR,VK2BLR", msg.getPath().c_str());
+	TEST_ASSERT_EQUAL_STRING("APOTC1", msg.getDestination().c_str());
+	TEST_ASSERT_EQUAL_STRING("/184701h1234.12S/12345.12E>/A=001074 13.6V 27C    DD Com Nicsan", msg.getAPRSBody()->getData().c_str());
+}
+
 int main(int argc, char** argv)
 {
 	UNITY_BEGIN();
@@ -64,5 +88,7 @@ int main(int argc, char** argv)
 	RUN_TEST(test3);
 	RUN_TEST(test4);
 	RUN_TEST(test5);
+	RUN_TEST(copy_test);
+	RUN_TEST(assignment_test);
 	UNITY_END();
 }
