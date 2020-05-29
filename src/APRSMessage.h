@@ -24,6 +24,8 @@ class APRSMessage
 {
 public:
 	APRSMessage();
+	APRSMessage(APRSMessage & other_msg);
+	APRSMessage & operator=(APRSMessage & other_msg);
 	virtual ~APRSMessage();
 
 	String getSource() const;

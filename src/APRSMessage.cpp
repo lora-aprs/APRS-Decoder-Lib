@@ -5,6 +5,24 @@ APRSMessage::APRSMessage()
 {
 }
 
+APRSMessage::APRSMessage(APRSMessage & other_msg)
+	: _body(new APRSBody()), _source(other_msg.getSource()), _destination(other_msg.getDestination()), _path(other_msg.getPath())
+{
+	_body->setData(other_msg.getAPRSBody()->getData());
+}
+
+APRSMessage & APRSMessage::operator=(APRSMessage & other_msg)
+{
+	if(this != &other_msg)
+	{
+		_source = other_msg.getSource();
+		_destination = other_msg.getDestination();
+		_path = other_msg.getPath();
+		_body->setData(other_msg.getAPRSBody()->getData());
+	}
+	return *this;
+}
+
 APRSMessage::~APRSMessage()
 {
 	delete _body;
