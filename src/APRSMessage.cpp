@@ -6,7 +6,7 @@ APRSMessage::APRSMessage()
 }
 
 APRSMessage::APRSMessage(APRSMessage & other_msg)
-	: _body(new APRSBody()), _source(other_msg.getSource()), _destination(other_msg.getDestination()), _path(other_msg.getPath())
+	: _source(other_msg.getSource()), _destination(other_msg.getDestination()), _path(other_msg.getPath()), _body(new APRSBody()),
 {
 	_body->setData(other_msg.getAPRSBody()->getData());
 }
