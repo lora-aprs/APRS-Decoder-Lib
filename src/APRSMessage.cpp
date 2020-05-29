@@ -68,9 +68,17 @@ bool APRSMessage::decode(const String & message)
 	int pos_src = message.indexOf('>');
 	_source = message.substring(0, pos_src);
 	int pos_dest = message.indexOf(',');
-	_destination = message.substring(pos_src+1, pos_dest);
 	int pos_path = message.indexOf(':');
-	_path = message.substring(pos_dest+1, pos_path);
+	if(pos_dest != -1 && pos_dest < pos_path)
+	{
+		_path = message.substring(pos_dest+1, pos_path);
+		_destination = message.substring(pos_src+1, pos_dest);
+	}
+	else
+	{
+		_path = "";
+		_destination = message.substring(pos_src+1, pos_path);
+	}
 	_body->decode(message.substring(pos_path+1));
 	return true;
 }
