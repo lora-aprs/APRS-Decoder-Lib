@@ -80,11 +80,7 @@ void assignment_test()
 	TEST_ASSERT_EQUAL_STRING("/184701h1234.12S/12345.12E>/A=001074 13.6V 27C    DD Com Nicsan", msg.getAPRSBody()->getData().c_str());
 }
 
-#ifdef ARDUINO
 void setup()
-#else
-int main(int argc, char** argv)
-#endif
 {
 	UNITY_BEGIN();
 	RUN_TEST(test1);
@@ -97,8 +93,6 @@ int main(int argc, char** argv)
 	UNITY_END();
 }
 
-#ifdef ARDUINO
 void loop()
 {
 }
-#endif
