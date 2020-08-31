@@ -80,7 +80,11 @@ void assignment_test()
 	TEST_ASSERT_EQUAL_STRING("/184701h1234.12S/12345.12E>/A=001074 13.6V 27C    DD Com Nicsan", msg.getAPRSBody()->getData().c_str());
 }
 
+#ifdef NATIVE
+int main(int argc, char** argv)
+#else
 void setup()
+#endif
 {
 	UNITY_BEGIN();
 	RUN_TEST(test1);
