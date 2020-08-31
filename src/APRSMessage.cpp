@@ -79,8 +79,9 @@ bool APRSMessage::decode(const String & message)
 		_path = "";
 		_destination = message.substring(pos_src+1, pos_path);
 	}
+	_type = APRSMessageType(message[pos_path+1]);
 	_body->decode(message.substring(pos_path+1));
-	return true;
+	return bool(_type);
 }
 
 String APRSMessage::encode() const
@@ -97,35 +98,9 @@ String APRSMessage::encode() const
 
 String APRSMessage::toString() const
 {
-	return "Source: " + _source + ", Destination: " + _destination + ", Path: " + _path + ", " + _body->toString();
+	return "Source: " + _source + ", Destination: " + _destination + ", Path: " + _path +
+		", Type: " + _type.toString() + ", " + _body->toString();
 }
-
-/*
-APRSMessageTypes APRSMessage::getAPRSMessageType(const String & message)
-{
-	int blub = message.indexOf(':');
-	switch(message.charAt(blub + 1))
-	{
-		case '=':
-		case '!':
-			return APRSMessageTypes::PositionWithoutTimestamp;
-		case '@':
-		case '/':
-			return APRSMessageTypes::PositionWithTimestamp;
-		case '>':
-			return APRSMessageTypes::Status;
-		case '?':
-			return APRSMessageTypes::Query;
-		case ':':
-			return APRSMessageTypes::Message;
-		case '_':
-			return APRSMessageTypes::Weather;
-		case 'T':
-			return APRSMessageTypes::Telemetry;
-	}
-	return APRSMessageTypes::Message;
-}
-*/
 
 
 APRSBody::APRSBody()

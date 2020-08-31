@@ -2,6 +2,7 @@
 #define APRS_HEADER_H_
 
 #include <Arduino.h>
+#include "APRSMessageType.h"
 
 class APRSBody
 {
@@ -43,31 +44,12 @@ public:
 	virtual String encode() const;
 	virtual String toString() const;
 
-	/*
-	enum class APRSMessageTypes
-	{
-		PositionWithoutTimestamp,	// = and !
-		PositionWithTimestamp,		// @ and /
-		Status,						// >
-		Query,						// ?
-		Message,					// :
-		Weather,					// _
-		Telemetry,					// T
-		// you can add more types ;)
-	};
-
-	enum class APRSPositionTypes
-	{
-		WithMessage,	// = and @
-		NoMessage,		// ! and /
-	};*/
-
 private:
 	String _source;
 	String _destination;
 	String _path;
 	APRSBody * const _body;
-	//APRSMessageTypes _type;
+	APRSMessageType _type;
 };
 
 
