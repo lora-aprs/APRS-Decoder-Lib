@@ -6,9 +6,10 @@ APRSMessage::APRSMessage()
 }
 
 APRSMessage::APRSMessage(APRSMessage & other_msg)
-	: _source(other_msg.getSource()), _destination(other_msg.getDestination()), _path(other_msg.getPath()), _body(new APRSBody())
+	: _source(other_msg.getSource()), _destination(other_msg.getDestination()), _path(other_msg.getPath()),
+	  _type(other_msg.getType()), _rawBody(other_msg.getRawBody()), _body(new APRSBody())
 {
-	_body->setData(other_msg.getAPRSBody()->getData());
+	_body->setData(other_msg.getBody()->getData());
 }
 
 APRSMessage & APRSMessage::operator=(APRSMessage & other_msg)
@@ -18,7 +19,9 @@ APRSMessage & APRSMessage::operator=(APRSMessage & other_msg)
 		_source = other_msg.getSource();
 		_destination = other_msg.getDestination();
 		_path = other_msg.getPath();
-		_body->setData(other_msg.getAPRSBody()->getData());
+		_type = other_msg.getType();
+		_rawBody = other_msg.getRawBody();
+		_body->setData(other_msg.getBody()->getData());
 	}
 	return *this;
 }
@@ -58,7 +61,17 @@ void APRSMessage::setPath(const String & path)
 	_path = path;
 }
 
-APRSBody * const APRSMessage::getAPRSBody()
+APRSMessageType APRSMessage::getType() const
+{
+	return _type;
+}
+
+String APRSMessage::getRawBody() const
+{
+	return _rawBody;
+}
+
+APRSBody * const APRSMessage::getBody()
 {
 	return _body;
 }
@@ -79,8 +92,9 @@ bool APRSMessage::decode(const String & message)
 		_path = "";
 		_destination = message.substring(pos_src+1, pos_path);
 	}
-	_type = APRSMessageType(message[pos_path+1]);
-	_body->decode(message.substring(pos_path+1));
+	_rawBody = message.substring(pos_path+1);
+	_type = APRSMessageType(_rawBody[0]);
+	_body->decode(_rawBody);
 	return bool(_type);
 }
 

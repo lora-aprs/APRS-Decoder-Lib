@@ -38,7 +38,8 @@ void test1()
 	TEST_ASSERT_EQUAL_STRING("AB1CDE-10", msg.getSource().c_str());
 	TEST_ASSERT_EQUAL_STRING("AB1CDE", msg.getPath().c_str());
 	TEST_ASSERT_EQUAL_STRING("APRS", msg.getDestination().c_str());
-	TEST_ASSERT_EQUAL_STRING("=1234.12N/12345.12E-QTH von AB1CDE", msg.getAPRSBody()->getData().c_str());
+	TEST_ASSERT(msg.getType() == APRSMessageType::PositionWithoutTimestamp);
+	TEST_ASSERT_EQUAL_STRING("=1234.12N/12345.12E-QTH von AB1CDE", msg.getBody()->getData().c_str());
 	std::cout << msg.toString().c_str() << std::endl;
 }
 

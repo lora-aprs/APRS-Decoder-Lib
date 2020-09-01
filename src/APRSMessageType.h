@@ -6,7 +6,7 @@
 class APRSMessageType
 {
 public:
-	enum Value
+	enum Value : uint8_t
 	{
 		PositionWithoutTimestamp,	// = and !
 		PositionWithTimestamp,		// @ and /
@@ -15,6 +15,7 @@ public:
 		Message,					// :
 		Weather,					// _
 		Telemetry,					// T
+		CurrentMicEData,			// `
 		// you can add more types ;)
 		Error,
 	};
@@ -48,6 +49,9 @@ public:
 		case 'T':
 			value = Telemetry;
 			break;
+		case '`':
+			value = CurrentMicEData;
+			break;
 		default:
 			value = Error;
 		}
@@ -76,6 +80,8 @@ public:
 			return "Weather";
 		case Telemetry:
 			return "Telemetry";
+		case CurrentMicEData:
+			return "Current Mic-E Data";
 		default:
 			return "Error";
 		}
