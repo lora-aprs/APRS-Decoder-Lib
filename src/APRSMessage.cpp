@@ -106,7 +106,7 @@ String APRSMessage::encode() const
 	{
 		msg = msg + "," + _path;
 	}
-	msg = msg  + ":" + _body->encode() + "\n";
+	msg = msg  + ":" + _body->encode();
 	return msg;
 }
 
