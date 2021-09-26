@@ -10,26 +10,32 @@ jobs:
   PlatformIO-Check:
     runs-on: ubuntu-latest
     steps:
-      - run: sudo apt-get install python3-setuptools python3-wheel
-      - run: pip3 install platformio
-      - run: echo "::add-path::~/.local/bin"
-      - uses: actions/checkout@v2
-      - run: platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Install PlatformIO
+        run: python -m pip install --upgrade pip platformio
+      - run: platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high --skip-packages
 
   PlatformIO-CI:
     runs-on: ubuntu-latest
     steps:
-      - run: sudo apt-get install python3-setuptools python3-wheel
-      - run: pip3 install platformio
-      - run: echo "::add-path::~/.local/bin"
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Install PlatformIO
+        run: python -m pip install --upgrade pip platformio
       - run: platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini examples/basic_decode
 
   PlatformIO-NativeTest:
     runs-on: ubuntu-latest
     steps:
-      - run: sudo apt-get install python3-setuptools python3-wheel
-      - run: pip3 install platformio
-      - run: echo "::add-path::~/.local/bin"
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Install PlatformIO
+        run: python -m pip install --upgrade pip platformio
       - run: platformio test -e native
