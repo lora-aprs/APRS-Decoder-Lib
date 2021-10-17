@@ -5,24 +5,48 @@
 #include <list>
 
 namespace aprs {
-class PathElement {
+class IPathElement {
 public:
-  explicit PathElement(const String &name, bool consumed = false);
+  virtual void   Consume()           = 0;
+  virtual bool   getConsumed() const = 0;
+  virtual String getName() const     = 0;
+  virtual String getPathName() const = 0;
+};
 
-  void setConsumed(bool consumed = true);
-  bool getConsumed() const;
+class BasicPathElement : public IPathElement {
+public:
+  explicit BasicPathElement(const String &name, bool consumed = false);
 
-  String getName() const;
+  void Consume() override;
+  bool getConsumed() const override;
+
+  String getName() const override;
+  String getPathName() const override;
 
 private:
   const String _name;
   bool         _consumed;
 };
 
+class WidePathElement : public IPathElement {
+public:
+  explicit WidePathElement(const int startValue, const int currentValue);
+
+  void Consume() override;
+  bool getConsumed() const override;
+
+  String getName() const override;
+  String getPathName() const override;
+
+private:
+  int _startValue;
+  int _currentValue;
+};
+
 class Path {
 public:
-  std::list<PathElement> get() const;
-  void                   add(const PathElement &path);
+  std::list<IPathElement *> get() const;
+  void                      add(IPathElement *path);
 
   bool isExisting(const String &name);
   void setConsumed(const String &name);
@@ -30,7 +54,7 @@ public:
   String toString() const;
 
 private:
-  std::list<PathElement> _path;
+  std::list<IPathElement *> _path;
 };
 
 } // namespace aprs
