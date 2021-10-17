@@ -18,16 +18,16 @@ jobs:
         run: python -m pip install --upgrade pip platformio
       - run: platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high --skip-packages
 
-  PlatformIO-CI:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-      - name: Install PlatformIO
-        run: python -m pip install --upgrade pip platformio
-      - run: platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini examples/basic_decode
+#  PlatformIO-CI:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#      - name: Set up Python
+#        uses: actions/setup-python@v2
+#      - name: Install PlatformIO
+#        run: python -m pip install --upgrade pip platformio
+#      - run: platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini examples/basic_decode
 
   PlatformIO-NativeTest:
     runs-on: ubuntu-latest
