@@ -1,6 +1,22 @@
+#include <algorithm>
+#include <numeric>
+
 #include "Path.h"
 
 namespace aprs {
+
+class findPathElement {
+public:
+  explicit findPathElement(const String &name) : _name(name) {
+  }
+
+  bool operator()(const PathElement &other) const {
+    return other.getName() == _name;
+  }
+
+private:
+  const String _name;
+};
 
 PathElement::PathElement(const String &name, bool consumed) : _name(name), _consumed(consumed) {
 }
@@ -26,31 +42,29 @@ void Path::add(const PathElement &path) {
 }
 
 bool Path::isExisting(const String &name) {
-  for (auto const &pathElement : _path) {
-    if (pathElement.getName() == name) {
-      return true;
-    }
-  }
-  return false;
+  return std::any_of(_path.begin(), _path.end(), findPathElement(name));
 }
 
 void Path::setConsumed(const String &name) {
-  for (auto &pathElement : _path) {
-    if (pathElement.getName() == name) {
-      pathElement.setConsumed();
-      return;
-    }
+  auto found = std::find_if(_path.begin(), _path.end(), findPathElement(name));
+  if (found != _path.end()) {
+    found->setConsumed();
+    return;
   }
-  // element is not existing, lets add it
   _path.push_back(PathElement(name, true));
 }
 
 String Path::toString() const {
-  String p = "";
-  for (auto const &pathElement : _path) {
-    { p += pathElement.getName() + "(" + pathElement.getConsumed() + "), "; }
-  }
-  p.remove(p.length() - 2, 2);
+  auto accumulate_path = [](const String &a, const aprs::PathElement &elem) {
+    if (elem.getConsumed()) {
+      return a + elem.getName() + "*, ";
+    } else {
+      return a + elem.getName() + ", ";
+    }
+  };
+
+  String p = std::accumulate(_path.begin(), _path.end(), String(""), accumulate_path);
+  p.remove(p.length() - 2);
   return p;
 }
 } // namespace aprs

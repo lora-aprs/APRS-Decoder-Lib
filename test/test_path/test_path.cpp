@@ -31,6 +31,16 @@ void test_Path1() {
   TEST_ASSERT_EQUAL(path.isExisting("test11"), true);
 }
 
+void test_Path2() {
+  aprs::Path path;
+  path.add(aprs::PathElement("test1"));
+  path.add(aprs::PathElement("test2"));
+  path.setConsumed("test3");
+  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1, test2, test3*");
+  path.setConsumed("test1");
+  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2, test3*");
+}
+
 #ifdef NATIVE
 int main(int argc, char **argv)
 #else
@@ -40,6 +50,7 @@ void setup()
   UNITY_BEGIN();
   RUN_TEST(test_PathElement);
   RUN_TEST(test_Path1);
+  RUN_TEST(test_Path2);
   UNITY_END();
 }
 

@@ -15,8 +15,8 @@ public:
   String getName() const;
 
 private:
-  String _name;
-  bool   _consumed;
+  const String _name;
+  bool         _consumed;
 };
 
 class Path {
