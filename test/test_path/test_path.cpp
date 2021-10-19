@@ -82,6 +82,19 @@ void test_WidePathElement1() {
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2, WIDE3*");
 }
 
+void test_addNode() {
+  aprs::Path             path;
+  aprs::BasicPathElement test1("test1", true);
+  aprs::BasicPathElement test2("test2");
+  aprs::BasicPathElement test3("test3", true);
+  path.addNode(&test1);
+  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*");
+  path.add(&test2);
+  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2");
+  path.addNode(&test3);
+  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test3*, test2");
+}
+
 #ifdef NATIVE
 int main(int argc, char **argv)
 #else
@@ -94,6 +107,7 @@ void setup()
   RUN_TEST(test_BasicPathElement2);
   RUN_TEST(test_WidePathElement);
   RUN_TEST(test_WidePathElement1);
+  RUN_TEST(test_addNode);
   UNITY_END();
 }
 

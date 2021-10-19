@@ -72,6 +72,13 @@ void Path::add(IPathElement *path) {
   _path.push_back(path);
 }
 
+void Path::addNode(IPathElement *node) {
+  auto found = std::find_if(_path.begin(), _path.end(), [](const IPathElement *elem) {
+    return !elem->getConsumed();
+  });
+  _path.insert(found, node);
+}
+
 bool Path::isExisting(const String &name) {
   return std::any_of(_path.begin(), _path.end(), findPathElement(name));
 }

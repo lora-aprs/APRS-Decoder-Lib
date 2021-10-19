@@ -47,6 +47,7 @@ class Path {
 public:
   std::list<IPathElement *> get() const;
   void                      add(IPathElement *path);
+  void                      addNode(IPathElement *node);
 
   bool isExisting(const String &name);
   void setConsumed(const String &name);
