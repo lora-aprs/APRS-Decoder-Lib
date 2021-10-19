@@ -10,7 +10,7 @@ public:
   explicit findPathElement(const String &name) : _name(name) {
   }
 
-  bool operator()(IPathElement *other) const {
+  bool operator()(std::shared_ptr<IPathElement> other) const {
     return other->getName() == _name;
   }
 
@@ -64,16 +64,16 @@ String WidePathElement::getPathName() const {
   return getName() + "-" + _currentValue;
 }
 
-std::list<IPathElement *> Path::get() const {
+std::list<std::shared_ptr<IPathElement>> Path::get() const {
   return _path;
 }
 
-void Path::add(IPathElement *path) {
+void Path::add(std::shared_ptr<IPathElement> path) {
   _path.push_back(path);
 }
 
-void Path::addNode(IPathElement *node) {
-  auto found = std::find_if(_path.begin(), _path.end(), [](const IPathElement *elem) {
+void Path::addNode(std::shared_ptr<IPathElement> node) {
+  auto found = std::find_if(_path.begin(), _path.end(), [](const std::shared_ptr<IPathElement> elem) {
     return !elem->getConsumed();
   });
   _path.insert(found, node);
@@ -91,7 +91,7 @@ void Path::setConsumed(const String &name) {
 }
 
 String Path::toString() const {
-  auto accumulate_path = [](const String &a, aprs::IPathElement *elem) {
+  auto accumulate_path = [](const String &a, std::shared_ptr<IPathElement> elem) {
     return a + elem->getPathName() + ", ";
   };
 

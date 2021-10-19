@@ -10,10 +10,10 @@ void test_BasicPathElement() {
 }
 
 void test_BasicPathElement1() {
-  aprs::Path             path;
-  aprs::BasicPathElement test1("test1");
-  aprs::BasicPathElement test2("test2", true);
-  path.add(&test1);
+  aprs::Path                          path;
+  std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
+  std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2", true);
+  path.add(test1);
   TEST_ASSERT_EQUAL(path.isExisting("test1"), true);
   TEST_ASSERT_EQUAL(path.isExisting("test11"), false);
 
@@ -23,7 +23,7 @@ void test_BasicPathElement1() {
   }
 
   path.setConsumed("test1");
-  path.add(&test2);
+  path.add(test2);
   for (auto const &pathElement : path.get()) {
     TEST_ASSERT_EQUAL(pathElement->getConsumed(), true);
   }
@@ -32,11 +32,11 @@ void test_BasicPathElement1() {
 }
 
 void test_BasicPathElement2() {
-  aprs::Path             path;
-  aprs::BasicPathElement test1("test1");
-  aprs::BasicPathElement test2("test2");
-  path.add(&test1);
-  path.add(&test2);
+  aprs::Path                          path;
+  std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
+  std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
+  path.add(test1);
+  path.add(test2);
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1, test2");
   path.setConsumed("test1");
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2");
@@ -65,13 +65,13 @@ void test_WidePathElement() {
 }
 
 void test_WidePathElement1() {
-  aprs::Path             path;
-  aprs::BasicPathElement test1("test1");
-  aprs::BasicPathElement test2("test2");
-  aprs::WidePathElement  test3(3, 3);
-  path.add(&test1);
-  path.add(&test2);
-  path.add(&test3);
+  aprs::Path                          path;
+  std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
+  std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
+  std::shared_ptr<aprs::IPathElement> test3 = std::make_shared<aprs::WidePathElement>(3, 3);
+  path.add(test1);
+  path.add(test2);
+  path.add(test3);
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1, test2, WIDE3-3");
   path.setConsumed("test1");
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2, WIDE3-3");
@@ -83,15 +83,15 @@ void test_WidePathElement1() {
 }
 
 void test_addNode() {
-  aprs::Path             path;
-  aprs::BasicPathElement test1("test1", true);
-  aprs::BasicPathElement test2("test2");
-  aprs::BasicPathElement test3("test3", true);
-  path.addNode(&test1);
+  aprs::Path                          path;
+  std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1", true);
+  std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
+  std::shared_ptr<aprs::IPathElement> test3 = std::make_shared<aprs::BasicPathElement>("test3", true);
+  path.addNode(test1);
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*");
-  path.add(&test2);
+  path.add(test2);
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2");
-  path.addNode(&test3);
+  path.addNode(test3);
   TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test3*, test2");
 }
 
