@@ -3,10 +3,10 @@
 
 void test_BasicPathElement() {
   aprs::BasicPathElement elem("test1");
-  TEST_ASSERT_EQUAL_STRING(elem.getName().c_str(), "test1");
-  TEST_ASSERT_EQUAL(elem.getConsumed(), false);
+  TEST_ASSERT_EQUAL_STRING("test1", elem.getName().c_str());
+  TEST_ASSERT_EQUAL(false, elem.getConsumed());
   elem.Consume();
-  TEST_ASSERT_EQUAL(elem.getConsumed(), true);
+  TEST_ASSERT_EQUAL(true, elem.getConsumed());
 }
 
 void test_BasicPathElement1() {
@@ -14,21 +14,21 @@ void test_BasicPathElement1() {
   std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2", true);
   path.add(test1);
-  TEST_ASSERT_EQUAL(path.isExisting("test1"), true);
-  TEST_ASSERT_EQUAL(path.isExisting("test11"), false);
+  TEST_ASSERT_EQUAL(true, path.isExisting("test1"));
+  TEST_ASSERT_EQUAL(false, path.isExisting("test11"));
 
   for (auto const pathElement : path.get()) {
-    TEST_ASSERT_EQUAL_STRING(pathElement->getName().c_str(), "test1");
-    TEST_ASSERT_EQUAL(pathElement->getConsumed(), false);
+    TEST_ASSERT_EQUAL_STRING("test1", pathElement->getName().c_str());
+    TEST_ASSERT_EQUAL(false, pathElement->getConsumed());
   }
 
   path.setConsumed("test1");
   path.add(test2);
   for (auto const &pathElement : path.get()) {
-    TEST_ASSERT_EQUAL(pathElement->getConsumed(), true);
+    TEST_ASSERT_EQUAL(true, pathElement->getConsumed());
   }
-  TEST_ASSERT_EQUAL(path.isExisting("test1"), true);
-  TEST_ASSERT_EQUAL(path.isExisting("test2"), true);
+  TEST_ASSERT_EQUAL(true, path.isExisting("test1"));
+  TEST_ASSERT_EQUAL(true, path.isExisting("test2"));
 }
 
 void test_BasicPathElement2() {
@@ -37,31 +37,31 @@ void test_BasicPathElement2() {
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
   path.add(test1);
   path.add(test2);
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1, test2");
+  TEST_ASSERT_EQUAL_STRING("test1, test2", path.toString().c_str());
   path.setConsumed("test1");
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2");
+  TEST_ASSERT_EQUAL_STRING("test1*, test2", path.toString().c_str());
 }
 
 void test_WidePathElement() {
   aprs::WidePathElement test1(3, 3);
-  TEST_ASSERT_EQUAL(test1.getConsumed(), false);
-  TEST_ASSERT_EQUAL_STRING(test1.getName().c_str(), "WIDE3");
-  TEST_ASSERT_EQUAL_STRING(test1.getPathName().c_str(), "WIDE3-3");
+  TEST_ASSERT_EQUAL(false, test1.getConsumed());
+  TEST_ASSERT_EQUAL_STRING("WIDE3", test1.getName().c_str());
+  TEST_ASSERT_EQUAL_STRING("WIDE3-3", test1.getPathName().c_str());
 
   test1.Consume();
-  TEST_ASSERT_EQUAL(test1.getConsumed(), false);
-  TEST_ASSERT_EQUAL_STRING(test1.getName().c_str(), "WIDE3");
-  TEST_ASSERT_EQUAL_STRING(test1.getPathName().c_str(), "WIDE3-2");
+  TEST_ASSERT_EQUAL(false, test1.getConsumed());
+  TEST_ASSERT_EQUAL_STRING("WIDE3", test1.getName().c_str());
+  TEST_ASSERT_EQUAL_STRING("WIDE3-2", test1.getPathName().c_str());
 
   test1.Consume();
-  TEST_ASSERT_EQUAL(test1.getConsumed(), false);
-  TEST_ASSERT_EQUAL_STRING(test1.getName().c_str(), "WIDE3");
-  TEST_ASSERT_EQUAL_STRING(test1.getPathName().c_str(), "WIDE3-1");
+  TEST_ASSERT_EQUAL(false, test1.getConsumed());
+  TEST_ASSERT_EQUAL_STRING("WIDE3", test1.getName().c_str());
+  TEST_ASSERT_EQUAL_STRING("WIDE3-1", test1.getPathName().c_str());
 
   test1.Consume();
-  TEST_ASSERT_EQUAL(test1.getConsumed(), true);
-  TEST_ASSERT_EQUAL_STRING(test1.getName().c_str(), "WIDE3");
-  TEST_ASSERT_EQUAL_STRING(test1.getPathName().c_str(), "WIDE3*");
+  TEST_ASSERT_EQUAL(true, test1.getConsumed());
+  TEST_ASSERT_EQUAL_STRING("WIDE3", test1.getName().c_str());
+  TEST_ASSERT_EQUAL_STRING("WIDE3*", test1.getPathName().c_str());
 }
 
 void test_WidePathElement1() {
@@ -72,14 +72,14 @@ void test_WidePathElement1() {
   path.add(test1);
   path.add(test2);
   path.add(test3);
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1, test2, WIDE3-3");
+  TEST_ASSERT_EQUAL_STRING("test1, test2, WIDE3-3", path.toString().c_str());
   path.setConsumed("test1");
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2, WIDE3-3");
+  TEST_ASSERT_EQUAL_STRING("test1*, test2, WIDE3-3", path.toString().c_str());
   path.setConsumed("WIDE3");
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2, WIDE3-2");
+  TEST_ASSERT_EQUAL_STRING("test1*, test2, WIDE3-2", path.toString().c_str());
   path.setConsumed("WIDE3");
   path.setConsumed("WIDE3");
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2, WIDE3*");
+  TEST_ASSERT_EQUAL_STRING("test1*, test2, WIDE3*", path.toString().c_str());
 }
 
 void test_addNode() {
@@ -88,11 +88,11 @@ void test_addNode() {
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
   std::shared_ptr<aprs::IPathElement> test3 = std::make_shared<aprs::BasicPathElement>("test3", true);
   path.addNode(test1);
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*");
+  TEST_ASSERT_EQUAL_STRING("test1*", path.toString().c_str());
   path.add(test2);
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test2");
+  TEST_ASSERT_EQUAL_STRING("test1*, test2", path.toString().c_str());
   path.addNode(test3);
-  TEST_ASSERT_EQUAL_STRING(path.toString().c_str(), "test1*, test3*, test2");
+  TEST_ASSERT_EQUAL_STRING("test1*, test3*, test2", path.toString().c_str());
 }
 
 #ifdef NATIVE
