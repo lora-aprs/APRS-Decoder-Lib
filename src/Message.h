@@ -32,8 +32,18 @@ private:
   String      _destination;
   Path        _path;
   MessageType _type;
+};
 
-  // virtual String toStringBody() const = 0;
+class NotKnownMessage : public Message {
+public:
+  NotKnownMessage();
+  ~NotKnownMessage();
+
+  String getText() const;
+  void   setText(const String &text);
+
+private:
+  String _text;
 };
 
 } // namespace aprs

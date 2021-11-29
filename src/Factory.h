@@ -9,8 +9,8 @@ namespace aprs {
 
 class Factory {
 public:
-  static std::shared_ptr<Position> generate(const String &textMsg);
-  static String                    generate(std::shared_ptr<Position> msg);
+  static std::shared_ptr<Message> generate(const String &textMsg);
+  static String                   generate(std::shared_ptr<Position> msg);
 
   static MessageType getType(const String &textMsg);
 

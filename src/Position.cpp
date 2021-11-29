@@ -34,13 +34,10 @@ void Position::setText(const String &text) {
 }
 
 void PositionFactory::generate(const String &textMsg, std::shared_ptr<Position> msg) {
-  Serial.println(textMsg);
   String lat = textMsg.substring(0, 7);
-  Serial.println(lat);
   msg->setLatitude(NMEA2double(lat));
 
   String lon = textMsg.substring(9, 17);
-  Serial.println(lon);
   msg->setLongitude(NMEA2double(lon));
 
   msg->setText(textMsg.substring(19));
@@ -58,7 +55,6 @@ double PositionFactory::NMEA2double(const String &nmea) {
   _nmea *= 100;
   _nmea /= 60;
   _nmea += degrees;
-  Serial.println(_nmea, 6);
   return _nmea;
 }
 

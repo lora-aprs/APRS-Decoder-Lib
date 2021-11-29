@@ -40,4 +40,18 @@ String Message::toString() const {
   return "Source: " + _source + ", Destination: " + _destination + ", Path: " + _path.toString() + ", Type: " + _type.toString(); // + ", " + toStringBody();
 }
 
+NotKnownMessage::NotKnownMessage() : Message(MessageType::Error) {
+}
+
+NotKnownMessage::~NotKnownMessage() {
+}
+
+String NotKnownMessage::getText() const {
+  return _text;
+}
+
+void NotKnownMessage::setText(const String &text) {
+  _text = text;
+}
+
 } // namespace aprs
