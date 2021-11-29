@@ -100,7 +100,7 @@ String Path::toString() const {
   return p;
 }
 
-Path PathFactory::generate(String pathText) {
+Path PathFactory::generate(const String &pathText) {
   return Path();
 }
 

@@ -62,7 +62,7 @@ private:
 
 class PathFactory {
 public:
-  static Path generate(String pathText);
+  static Path generate(const String &pathText);
 };
 
 } // namespace aprs

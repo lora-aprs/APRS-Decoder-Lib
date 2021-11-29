@@ -11,7 +11,7 @@ namespace aprs {
 
 class Message {
 public:
-  Message(MessageType type);
+  explicit Message(MessageType type);
   virtual ~Message();
 
   String getSource() const;
@@ -21,7 +21,7 @@ public:
   void   setDestination(const String &destination);
 
   Path &getPath();
-  void  setPath(Path path);
+  void  setPath(const Path &path);
 
   MessageType getType() const;
 

@@ -3,7 +3,7 @@
 
 namespace aprs {
 
-Position::Position() : Message(MessageType::PositionWithoutTimestamp) {
+Position::Position() : Message(MessageType::PositionWithoutTimestamp), _latitude(0), _longitude(0) {
 }
 
 Position::~Position() {
