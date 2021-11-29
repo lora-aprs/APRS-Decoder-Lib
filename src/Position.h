@@ -30,6 +30,9 @@ class PositionFactory {
 public:
   static void   generate(const String &textMsg, std::shared_ptr<Position> msg);
   static String generate(std::shared_ptr<Position> msg);
+
+private:
+  static double NMEA2double(const String &nmea);
 };
 
 } // namespace aprs

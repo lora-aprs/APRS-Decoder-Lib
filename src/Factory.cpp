@@ -3,9 +3,9 @@
 namespace aprs {
 
 std::shared_ptr<Position> Factory::generate(const String &textMsg) {
-  std::shared_ptr<Position> msg = std::make_shared<Position>();
-  Factory::generateHeader(textMsg, msg);
-  Factory::generate(textMsg, msg);
+  std::shared_ptr<Position> msg  = std::make_shared<Position>();
+  String                    body = Factory::generateHeader(textMsg, msg);
+  Factory::generate(body, msg);
   return msg;
 }
 
@@ -29,7 +29,7 @@ String Factory::generateHeader(const String &textMsg, std::shared_ptr<Message> m
   } else {
     msg->setDestination(textMsg.substring(pos_src + 1, pos_path));
   }
-  return textMsg.substring(pos_path + 1);
+  return textMsg.substring(pos_path + 2);
 }
 
 String Factory::generateHeader(std::shared_ptr<Message> msg) {
