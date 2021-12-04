@@ -31,7 +31,9 @@ public:
   static void   generate(const String &textMsg, std::shared_ptr<Position> msg);
   static String generate(std::shared_ptr<Position> msg);
 
+#ifndef UNIT_TEST
 private:
+#endif
   static double NMEA2double(const String &nmea);
 };
 

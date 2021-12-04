@@ -1,6 +1,15 @@
 #include <Factory.h>
 #include <unity.h>
 
+void test_PositionFactory() {
+  TEST_ASSERT_EQUAL_DOUBLE(12.56866666666666666667, aprs::PositionFactory::NMEA2double("1234.12N"));
+  TEST_ASSERT_EQUAL_DOUBLE(123.752, aprs::PositionFactory::NMEA2double("12345.12E"));
+  TEST_ASSERT_EQUAL_DOUBLE(-12.56866666666666666667, aprs::PositionFactory::NMEA2double("1234.12S"));
+  TEST_ASSERT_EQUAL_DOUBLE(-123.752, aprs::PositionFactory::NMEA2double("12345.12W"));
+  TEST_ASSERT_EQUAL_DOUBLE(0, aprs::PositionFactory::NMEA2double("1234.12"));
+  TEST_ASSERT_EQUAL_DOUBLE(0, aprs::PositionFactory::NMEA2double("12345.12"));
+}
+
 void test_FactoryNotKnown() {
   String                                 msg = "AB1CDE-10>APRS:AABCDE";
   std::shared_ptr<aprs::NotKnownMessage> pos = std::static_pointer_cast<aprs::NotKnownMessage>(aprs::Factory::generate(msg));
@@ -39,6 +48,7 @@ void setup()
 #endif
 {
   UNITY_BEGIN();
+  RUN_TEST(test_PositionFactory);
   RUN_TEST(test_FactoryNotKnown);
   RUN_TEST(test_FactoryPositionIn1);
   RUN_TEST(test_FactoryPositionIn2);
