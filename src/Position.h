@@ -34,7 +34,10 @@ public:
 #ifndef UNIT_TEST
 private:
 #endif
-  static double NMEA2double(const String &nmea);
+  static double       NMEA2double(const String &nmea);
+  static const String double2NMEA(const double coordinate, const int w);
+  static const String double2NMEALat(const double coordinate);
+  static const String double2NMEALong(const double coordinate);
 };
 
 } // namespace aprs

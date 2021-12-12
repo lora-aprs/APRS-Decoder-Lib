@@ -1,13 +1,28 @@
 #include <Factory.h>
 #include <unity.h>
 
-void test_PositionFactory() {
+void test_PositionFactory_NMEA2double() {
   TEST_ASSERT_EQUAL_DOUBLE(12.56866666666666666667, aprs::PositionFactory::NMEA2double("1234.12N"));
   TEST_ASSERT_EQUAL_DOUBLE(123.752, aprs::PositionFactory::NMEA2double("12345.12E"));
+  TEST_ASSERT_EQUAL_DOUBLE(12.752, aprs::PositionFactory::NMEA2double("01245.12E"));
   TEST_ASSERT_EQUAL_DOUBLE(-12.56866666666666666667, aprs::PositionFactory::NMEA2double("1234.12S"));
   TEST_ASSERT_EQUAL_DOUBLE(-123.752, aprs::PositionFactory::NMEA2double("12345.12W"));
+  TEST_ASSERT_EQUAL_DOUBLE(-12.752, aprs::PositionFactory::NMEA2double("01245.12W"));
   TEST_ASSERT_EQUAL_DOUBLE(0, aprs::PositionFactory::NMEA2double("1234.12"));
   TEST_ASSERT_EQUAL_DOUBLE(0, aprs::PositionFactory::NMEA2double("12345.12"));
+}
+
+void test_PositionFactory_double2NMEA() {
+  TEST_ASSERT_EQUAL_STRING("1234.12N", aprs::PositionFactory::double2NMEALat(12.56866666666666666667).c_str());
+  TEST_ASSERT_EQUAL_STRING("12345.12E", aprs::PositionFactory::double2NMEALong(123.752).c_str());
+  TEST_ASSERT_EQUAL_STRING("01245.12E", aprs::PositionFactory::double2NMEALong(12.752).c_str());
+  TEST_ASSERT_EQUAL_STRING("1234.12S", aprs::PositionFactory::double2NMEALat(-12.56866666666666666667).c_str());
+  TEST_ASSERT_EQUAL_STRING("12345.12W", aprs::PositionFactory::double2NMEALong(-123.752).c_str());
+  TEST_ASSERT_EQUAL_STRING("01245.12W", aprs::PositionFactory::double2NMEALong(-12.752).c_str());
+  TEST_ASSERT_EQUAL_STRING("", aprs::PositionFactory::double2NMEALat(91).c_str());
+  TEST_ASSERT_EQUAL_STRING("", aprs::PositionFactory::double2NMEALat(-91).c_str());
+  TEST_ASSERT_EQUAL_STRING("", aprs::PositionFactory::double2NMEALong(181).c_str());
+  TEST_ASSERT_EQUAL_STRING("", aprs::PositionFactory::double2NMEALong(-181).c_str());
 }
 
 void test_FactoryNotKnown() {
@@ -48,7 +63,8 @@ void setup()
 #endif
 {
   UNITY_BEGIN();
-  RUN_TEST(test_PositionFactory);
+  RUN_TEST(test_PositionFactory_NMEA2double);
+  RUN_TEST(test_PositionFactory_double2NMEA);
   RUN_TEST(test_FactoryNotKnown);
   RUN_TEST(test_FactoryPositionIn1);
   RUN_TEST(test_FactoryPositionIn2);

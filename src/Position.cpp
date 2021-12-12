@@ -1,6 +1,9 @@
 #include "Position.h"
 #include "MessageType.h"
 
+#include <iomanip>
+#include <sstream>
+
 namespace aprs {
 
 Position::Position() : Message(MessageType::PositionWithoutTimestamp), _latitude(0), _longitude(0) {
@@ -69,6 +72,49 @@ double PositionFactory::NMEA2double(const String &nmea) {
   }
 
   return _nmea;
+}
+
+const String PositionFactory::double2NMEALat(const double coordinate) {
+  if (coordinate > 90.0 || coordinate < -90.0) {
+    return String();
+  }
+
+  String coords = double2NMEA(coordinate, 2);
+
+  if (coordinate > 0.0) {
+    coords += 'N';
+  } else {
+    coords += 'S';
+  }
+  return coords;
+}
+
+const String PositionFactory::double2NMEALong(const double coordinate) {
+  if (coordinate > 180.0 || coordinate < -180.0) {
+    return String();
+  }
+
+  String coords = double2NMEA(coordinate, 3);
+
+  if (coordinate > 0.0) {
+    coords += 'E';
+  } else {
+    coords += 'W';
+  }
+  return coords;
+}
+
+const String PositionFactory::double2NMEA(const double coordinate, const int w) {
+  double c     = fabs(coordinate);
+  double after = c - std::floor(c);
+  after *= 60;
+
+  std::stringstream stream;
+  stream << std::setfill('0') << std::setw(w) << std::floor(c);
+  stream.precision(2);
+  stream << std::setw(2) << std::fixed << after;
+
+  return String(stream.str().c_str());
 }
 
 } // namespace aprs
