@@ -47,7 +47,7 @@ void PositionFactory::generate(const String &textMsg, std::shared_ptr<Position> 
 }
 
 String PositionFactory::generate(std::shared_ptr<Position> msg) {
-  return "";
+  return double2NMEALat(msg->getLatitude()) + "/" + double2NMEALong(msg->getLongitude()) + "-" + msg->getText();
 }
 
 double PositionFactory::NMEA2double(const String &nmea) {

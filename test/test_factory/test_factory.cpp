@@ -59,6 +59,46 @@ void test_FactoryPositionIn2() {
   TEST_ASSERT_EQUAL_STRING("QTH von AB1CDE", pos->getText().c_str());
 }
 
+void test_FactoryPositionOut1() {
+  std::shared_ptr<aprs::Position> pos = std::make_shared<aprs::Position>();
+  pos->setSource("AB1CDE-10");
+  pos->setDestination("APRS");
+  pos->setLatitude(12.56866666666666666667);
+  pos->setLongitude(123.752);
+  pos->setText("QTH von AB1CDE");
+  TEST_ASSERT_EQUAL_STRING("AB1CDE-10>APRS:=1234.12N/12345.12E-QTH von AB1CDE", aprs::Factory::generate(pos).c_str());
+}
+
+void test_FactoryPositionOut2() {
+  std::shared_ptr<aprs::Position> pos = std::make_shared<aprs::Position>();
+  pos->setSource("AB1CDE-10");
+  pos->setDestination("APRS");
+  aprs::Path                          path;
+  std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("AB1CDE");
+  path.add(test1);
+  pos->setPath(path);
+  pos->setLatitude(12.56866666666666666667);
+  pos->setLongitude(123.752);
+  pos->setText("QTH von AB1CDE");
+  TEST_ASSERT_EQUAL_STRING("AB1CDE-10>APRS,AB1CDE:=1234.12N/12345.12E-QTH von AB1CDE", aprs::Factory::generate(pos).c_str());
+}
+
+void test_FactoryPositionOut3() {
+  std::shared_ptr<aprs::Position> pos = std::make_shared<aprs::Position>();
+  pos->setSource("AB1CDE-10");
+  pos->setDestination("APRS");
+  aprs::Path                          path;
+  std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("AB1CDE");
+  std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("CD2EGF", true);
+  path.add(test1);
+  path.add(test2);
+  pos->setPath(path);
+  pos->setLatitude(12.56866666666666666667);
+  pos->setLongitude(123.752);
+  pos->setText("QTH von AB1CDE");
+  TEST_ASSERT_EQUAL_STRING("AB1CDE-10>APRS,AB1CDE,CD2EGF*:=1234.12N/12345.12E-QTH von AB1CDE", aprs::Factory::generate(pos).c_str());
+}
+
 #ifdef NATIVE
 int main(int argc, char **argv)
 #else
@@ -71,6 +111,9 @@ void setup()
   RUN_TEST(test_FactoryNotKnown);
   RUN_TEST(test_FactoryPositionIn1);
   RUN_TEST(test_FactoryPositionIn2);
+  RUN_TEST(test_FactoryPositionOut1);
+  RUN_TEST(test_FactoryPositionOut2);
+  RUN_TEST(test_FactoryPositionOut3);
   UNITY_END();
 }
 

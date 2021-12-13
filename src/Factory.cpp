@@ -3,16 +3,22 @@
 namespace aprs {
 
 std::shared_ptr<Message> Factory::generate(const String &textMsg) {
-  if (getType(textMsg) == MessageType::PositionWithoutTimestamp) {
+  aprs::MessageType type = getType(textMsg);
+  switch (type.getValue()) {
+  case MessageType::PositionWithoutTimestamp: {
     std::shared_ptr<Position> msg  = std::make_shared<Position>();
     String                    body = Factory::generateHeader(textMsg, msg);
     Factory::generate(body, msg);
     return msg;
+  } break;
+
+  default: {
+
+    std::shared_ptr<NotKnownMessage> msg  = std::make_shared<NotKnownMessage>();
+    String                           body = Factory::generateHeader(textMsg, msg);
+    msg->setText(body);
+  } break;
   }
-  std::shared_ptr<NotKnownMessage> msg  = std::make_shared<NotKnownMessage>();
-  String                           body = Factory::generateHeader(textMsg, msg);
-  msg->setText(body);
-  return msg;
 }
 
 String Factory::generate(std::shared_ptr<Position> msg) {
@@ -40,7 +46,7 @@ String Factory::generateHeader(const String &textMsg, std::shared_ptr<Message> m
 }
 
 String Factory::generateHeader(std::shared_ptr<Message> msg) {
-  return "";
+  return msg->getSource() + ">" + msg->getDestination() + msg->getPath().toAPRSString() + ":" + msg->getType().toIdentifier();
 }
 
 void Factory::generate(const String &textMsg, std::shared_ptr<Position> msg) {
