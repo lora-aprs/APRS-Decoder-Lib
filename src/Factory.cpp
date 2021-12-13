@@ -3,22 +3,16 @@
 namespace aprs {
 
 std::shared_ptr<Message> Factory::generate(const String &textMsg) {
-  aprs::MessageType type = getType(textMsg);
-  switch (type.getValue()) {
-  case MessageType::PositionWithoutTimestamp: {
+  if (getType(textMsg) == MessageType::PositionWithoutTimestamp) {
     std::shared_ptr<Position> msg  = std::make_shared<Position>();
     String                    body = Factory::generateHeader(textMsg, msg);
     Factory::generate(body, msg);
     return msg;
-  } break;
-
-  default: {
-
-    std::shared_ptr<NotKnownMessage> msg  = std::make_shared<NotKnownMessage>();
-    String                           body = Factory::generateHeader(textMsg, msg);
-    msg->setText(body);
-  } break;
   }
+  std::shared_ptr<NotKnownMessage> msg  = std::make_shared<NotKnownMessage>();
+  String                           body = Factory::generateHeader(textMsg, msg);
+  msg->setText(body);
+  return msg;
 }
 
 String Factory::generate(std::shared_ptr<Position> msg) {
