@@ -26,49 +26,49 @@ public:
     switch (type) {
     case '=':
     case '!':
-      value = PositionWithoutTimestamp;
+      _value = PositionWithoutTimestamp;
       break;
     case '@':
     case '/':
-      value = PositionWithTimestamp;
+      _value = PositionWithTimestamp;
       break;
     case '>':
-      value = Status;
+      _value = Status;
       break;
     case '?':
-      value = Query;
+      _value = Query;
       break;
     case ':':
-      value = Message;
+      _value = Message;
       break;
     case '_':
-      value = Weather;
+      _value = Weather;
       break;
     case 'T':
-      value = Telemetry;
+      _value = Telemetry;
       break;
     case '`':
-      value = CurrentMicEData;
+      _value = CurrentMicEData;
       break;
     default:
-      value = Error;
+      _value = Error;
     }
   }
   // cppcheck-suppress noExplicitConstructor
-  constexpr MessageType(Value aType) : value(aType) {
+  constexpr MessageType(Value aType) : _value(aType) {
   }
   constexpr bool operator==(MessageType a) const {
-    return value == a.value;
+    return _value == a._value;
   }
   constexpr bool operator!=(MessageType a) const {
-    return value != a.value;
+    return _value != a._value;
   }
   explicit operator bool() const {
-    return value != Error;
+    return _value != Error;
   }
 
   String toString() const {
-    switch (value) {
+    switch (_value) {
     case PositionWithoutTimestamp:
       return "Position Without Timestamp";
     case PositionWithTimestamp:
@@ -90,8 +90,35 @@ public:
     }
   }
 
+  String toIdentifier() const {
+    switch (_value) {
+    case PositionWithoutTimestamp:
+      return "=";
+    case PositionWithTimestamp:
+      return "@";
+    case Status:
+      return ">";
+    case Query:
+      return "?";
+    case Message:
+      return ":";
+    case Weather:
+      return "_";
+    case Telemetry:
+      return "T";
+    case CurrentMicEData:
+      return "`";
+    default:
+      return "E";
+    }
+  }
+
+  Value getValue() const {
+    return _value;
+  }
+
 private:
-  Value value;
+  Value _value;
 };
 
 /*
