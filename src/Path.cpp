@@ -100,6 +100,20 @@ String Path::toString() const {
   return p;
 }
 
+String Path::toAPRSString() const {
+  if (_path.size() == 0) {
+    return String();
+  }
+
+  auto accumulate_path = [](const String &a, std::shared_ptr<IPathElement> elem) {
+    return a + elem->getPathName() + ",";
+  };
+
+  String p = std::accumulate(_path.begin(), _path.end(), String(","), accumulate_path);
+  p.remove(p.length() - 1);
+  return p;
+}
+
 Path PathFactory::generate(const String &pathText) {
   return Path();
 }

@@ -55,6 +55,7 @@ public:
   void setConsumed(const String &name);
 
   String toString() const;
+  String toAPRSString() const;
 
 private:
   std::list<std::shared_ptr<IPathElement>> _path;
