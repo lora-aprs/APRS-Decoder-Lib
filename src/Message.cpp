@@ -28,7 +28,7 @@ Path &Message::getPath() {
   return _path;
 }
 
-void Message::setPath(const Path path) {
+void Message::setPath(const Path &path) {
   _path = path;
 }
 
