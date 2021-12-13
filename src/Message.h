@@ -21,7 +21,7 @@ public:
   void   setDestination(const String &destination);
 
   Path &getPath();
-  void  setPath(const Path &path);
+  void  setPath(const Path path);
 
   MessageType getType() const;
 
