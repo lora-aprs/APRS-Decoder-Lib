@@ -1,7 +1,7 @@
 #include <Path.h>
 #include <unity.h>
 
-void test_BasicPathElement() {
+void BasicPathElement() {
   aprs::BasicPathElement elem("test1");
   TEST_ASSERT_EQUAL_STRING("test1", elem.getName().c_str());
   TEST_ASSERT_EQUAL(false, elem.getConsumed());
@@ -9,7 +9,7 @@ void test_BasicPathElement() {
   TEST_ASSERT_EQUAL(true, elem.getConsumed());
 }
 
-void test_BasicPathElement1() {
+void BasicPathElement1() {
   aprs::Path                          path;
   std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2", true);
@@ -31,7 +31,7 @@ void test_BasicPathElement1() {
   TEST_ASSERT_EQUAL(true, path.isExisting("test2"));
 }
 
-void test_BasicPathElement2() {
+void BasicPathElement2() {
   aprs::Path                          path;
   std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
@@ -42,7 +42,7 @@ void test_BasicPathElement2() {
   TEST_ASSERT_EQUAL_STRING("test1*, test2", path.toString().c_str());
 }
 
-void test_WidePathElement() {
+void WidePathElement() {
   aprs::WidePathElement test1(3, 3);
   TEST_ASSERT_EQUAL(false, test1.getConsumed());
   TEST_ASSERT_EQUAL_STRING("WIDE3", test1.getName().c_str());
@@ -64,7 +64,7 @@ void test_WidePathElement() {
   TEST_ASSERT_EQUAL_STRING("WIDE3*", test1.getPathName().c_str());
 }
 
-void test_WidePathElement1() {
+void WidePathElement1() {
   aprs::Path                          path;
   std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1");
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
@@ -82,7 +82,7 @@ void test_WidePathElement1() {
   TEST_ASSERT_EQUAL_STRING("test1*, test2, WIDE3*", path.toString().c_str());
 }
 
-void test_addNode() {
+void addNode() {
   aprs::Path                          path;
   std::shared_ptr<aprs::IPathElement> test1 = std::make_shared<aprs::BasicPathElement>("test1", true);
   std::shared_ptr<aprs::IPathElement> test2 = std::make_shared<aprs::BasicPathElement>("test2");
@@ -102,12 +102,12 @@ void setup()
 #endif
 {
   UNITY_BEGIN();
-  RUN_TEST(test_BasicPathElement);
-  RUN_TEST(test_BasicPathElement1);
-  RUN_TEST(test_BasicPathElement2);
-  RUN_TEST(test_WidePathElement);
-  RUN_TEST(test_WidePathElement1);
-  RUN_TEST(test_addNode);
+  RUN_TEST(BasicPathElement);
+  RUN_TEST(BasicPathElement1);
+  RUN_TEST(BasicPathElement2);
+  RUN_TEST(WidePathElement);
+  RUN_TEST(WidePathElement1);
+  RUN_TEST(addNode);
   UNITY_END();
 }
 
