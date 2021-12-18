@@ -9,10 +9,10 @@
 
 namespace aprs {
 
-class Message {
+class Header {
 public:
-  explicit Message(MessageType type);
-  virtual ~Message();
+  explicit Header(MessageType type);
+  virtual ~Header();
 
   String getSource() const;
   void   setSource(const String &source);
@@ -34,7 +34,7 @@ private:
   MessageType _type;
 };
 
-class NotKnownMessage : public Message {
+class NotKnownMessage : public Header {
 public:
   NotKnownMessage();
   ~NotKnownMessage();

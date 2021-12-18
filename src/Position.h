@@ -6,7 +6,7 @@
 
 namespace aprs {
 
-class Position : public Message {
+class Position : public Header {
 public:
   Position();
   ~Position();

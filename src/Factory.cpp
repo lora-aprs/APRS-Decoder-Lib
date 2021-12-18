@@ -2,7 +2,7 @@
 
 namespace aprs {
 
-std::shared_ptr<Message> Factory::generate(const String &textMsg) {
+std::shared_ptr<Header> Factory::generate(const String &textMsg) {
   if (getType(textMsg) == MessageType::PositionWithoutTimestamp) {
     std::shared_ptr<Position> msg  = std::make_shared<Position>();
     String                    body = Factory::generateHeader(textMsg, msg);
@@ -24,7 +24,7 @@ MessageType Factory::getType(const String &textMsg) {
   return MessageType(textMsg[pos_end_header + 1]);
 }
 
-String Factory::generateHeader(const String &textMsg, std::shared_ptr<Message> msg) {
+String Factory::generateHeader(const String &textMsg, std::shared_ptr<Header> msg) {
   int pos_src = textMsg.indexOf('>');
   msg->setSource(textMsg.substring(0, pos_src));
 
@@ -39,7 +39,7 @@ String Factory::generateHeader(const String &textMsg, std::shared_ptr<Message> m
   return textMsg.substring(pos_path + 2);
 }
 
-String Factory::generateHeader(std::shared_ptr<Message> msg) {
+String Factory::generateHeader(std::shared_ptr<Header> msg) {
   return msg->getSource() + ">" + msg->getDestination() + msg->getPath().toAPRSString() + ":" + msg->getType().toIdentifier();
 }
 
