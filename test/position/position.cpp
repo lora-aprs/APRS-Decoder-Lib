@@ -25,15 +25,6 @@ void PositionFactory_double2NMEA() {
   TEST_ASSERT_EQUAL_STRING("", aprs::PositionFactory::double2NMEALong(-181).c_str());
 }
 
-void FactoryNotKnown() {
-  String                                 msg = "AB1CDE-10>APRS:AABCDE";
-  std::shared_ptr<aprs::NotKnownMessage> pos = std::static_pointer_cast<aprs::NotKnownMessage>(aprs::Factory::generate(msg));
-  TEST_ASSERT_TRUE(pos->getType() == aprs::MessageType::Error);
-  TEST_ASSERT_EQUAL_STRING("AB1CDE-10", pos->getSource().c_str());
-  TEST_ASSERT_EQUAL_STRING("APRS", pos->getDestination().c_str());
-  TEST_ASSERT_EQUAL_STRING("ABCDE", pos->getText().c_str());
-}
-
 void FactoryPositionIn1() {
   String                          msg = "AB1CDE-10>APRS:=1234.12N/12345.12E-QTH von AB1CDE";
   std::shared_ptr<aprs::Position> pos = std::static_pointer_cast<aprs::Position>(aprs::Factory::generate(msg));
@@ -108,7 +99,6 @@ void setup()
   UNITY_BEGIN();
   RUN_TEST(PositionFactory_NMEA2double);
   RUN_TEST(PositionFactory_double2NMEA);
-  RUN_TEST(FactoryNotKnown);
   RUN_TEST(FactoryPositionIn1);
   RUN_TEST(FactoryPositionIn2);
   RUN_TEST(FactoryPositionOut1);
