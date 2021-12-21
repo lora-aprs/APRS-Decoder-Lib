@@ -1,7 +1,7 @@
 #ifndef POSITION_H_
 #define POSITION_H_
 
-#include "Message.h"
+#include "Header.h"
 #include <Arduino.h>
 
 namespace aprs {
