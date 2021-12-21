@@ -1,5 +1,5 @@
-#ifndef MESSAGE_H_
-#define MESSAGE_H_
+#ifndef HEADER_H_
+#define HEADER_H_
 
 #include <Arduino.h>
 #include <list>
