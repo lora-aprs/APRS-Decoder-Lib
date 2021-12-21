@@ -9,6 +9,12 @@ std::shared_ptr<Header> Factory::generate(const String &textMsg) {
     Factory::generate(body, msg);
     return msg;
   }
+  if (getType(textMsg) == MessageType::Message) {
+    std::shared_ptr<Message> msg  = std::make_shared<Message>();
+    String                   body = Factory::generateHeader(textMsg, msg);
+    Factory::generate(body, msg);
+    return msg;
+  }
   std::shared_ptr<NotKnownMessage> msg  = std::make_shared<NotKnownMessage>();
   String                           body = Factory::generateHeader(textMsg, msg);
   msg->setText(body);
@@ -17,6 +23,10 @@ std::shared_ptr<Header> Factory::generate(const String &textMsg) {
 
 String Factory::generate(std::shared_ptr<Position> msg) {
   return Factory::generateHeader(msg) + PositionFactory::generate(msg);
+}
+
+String Factory::generate(std::shared_ptr<Message> msg) {
+  return Factory::generateHeader(msg) + MessageFactory::generate(msg);
 }
 
 MessageType Factory::getType(const String &textMsg) {
@@ -45,6 +55,10 @@ String Factory::generateHeader(std::shared_ptr<Header> msg) {
 
 void Factory::generate(const String &textMsg, std::shared_ptr<Position> msg) {
   PositionFactory::generate(textMsg, msg);
+}
+
+void Factory::generate(const String &textMsg, std::shared_ptr<Message> msg) {
+  MessageFactory::generate(textMsg, msg);
 }
 
 } // namespace aprs
