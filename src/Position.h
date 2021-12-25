@@ -20,10 +20,24 @@ public:
   String getText() const;
   void   setText(const String &text);
 
+  unsigned int getSpeed() const;
+  unsigned int getCourse() const;
+  void         setSpeedAndCourse(const unsigned int knots, const unsigned int degrees);
+  bool         isSpeedAndCourseSet() const;
+
+  int  getAltitude() const;
+  void setAltitude(const int feet);
+  bool isAltitudeSet() const;
+
 private:
-  double _latitude;
-  double _longitude;
-  String _text;
+  double       _latitude;
+  double       _longitude;
+  String       _text;
+  unsigned int _speed;
+  unsigned int _course;
+  bool         _speedAndCourseSet;
+  int          _altitude;
+  bool         _altitudeSet;
 };
 
 class PositionFactory {

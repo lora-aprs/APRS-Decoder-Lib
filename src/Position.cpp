@@ -6,7 +6,7 @@
 
 namespace aprs {
 
-Position::Position() : Header(MessageType::PositionWithoutTimestamp), _latitude(0), _longitude(0) {
+Position::Position() : Header(MessageType::PositionWithoutTimestamp), _latitude(0), _longitude(0), _speed(0), _course(0), _speedAndCourseSet(false), _altitude(0), _altitudeSet(false) {
 }
 
 Position::~Position() {
@@ -36,6 +36,40 @@ void Position::setText(const String &text) {
   _text = text;
 }
 
+unsigned int Position::getSpeed() const {
+  return _speed;
+}
+
+unsigned int Position::getCourse() const {
+  return _course;
+}
+
+void Position::setSpeedAndCourse(const unsigned int knots, const unsigned int degrees) {
+  _speed  = std::max<unsigned int>(0, std::min<unsigned int>(999, knots));
+  _course = std::max<unsigned int>(0, std::min<unsigned int>(360, degrees));
+  if (_course == 0) {
+    _course = 360;
+  }
+  _speedAndCourseSet = true;
+}
+
+bool Position::isSpeedAndCourseSet() const {
+  return _speedAndCourseSet;
+}
+
+int Position::getAltitude() const {
+  return _altitude;
+}
+
+void Position::setAltitude(const int feet) {
+  _altitude    = std::max(-99999, std::min(999999, feet));
+  _altitudeSet = true;
+}
+
+bool Position::isAltitudeSet() const {
+  return _altitudeSet;
+}
+
 void PositionFactory::generate(const String &textMsg, std::shared_ptr<Position> msg) {
   String lat = textMsg.substring(0, 8);
   msg->setLatitude(NMEA2double(lat));
@@ -47,7 +81,21 @@ void PositionFactory::generate(const String &textMsg, std::shared_ptr<Position> 
 }
 
 String PositionFactory::generate(std::shared_ptr<Position> msg) {
-  return double2NMEALat(msg->getLatitude()) + "/" + double2NMEALong(msg->getLongitude()) + "-" + msg->getText();
+  std::stringstream stream;
+  stream << double2NMEALat(msg->getLatitude()).c_str();
+  stream << "/";
+  stream << double2NMEALong(msg->getLongitude()).c_str();
+  stream << "-";
+  if (msg->isSpeedAndCourseSet()) {
+    stream << std::setfill('0') << std::setw(3) << msg->getCourse();
+    stream << "/";
+    stream << std::setfill('0') << std::setw(3) << msg->getSpeed();
+  }
+  if (msg->isAltitudeSet()) {
+    stream << "/A=" << std::internal << std::setfill('0') << std::setw(6) << msg->getAltitude();
+  }
+  stream << msg->getText().c_str();
+  return String(stream.str().c_str());
 }
 
 double PositionFactory::NMEA2double(const String &nmea) {
