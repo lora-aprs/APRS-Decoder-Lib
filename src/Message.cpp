@@ -57,20 +57,17 @@ void MessageFactory::generate(const String &textMsg, std::shared_ptr<Message> ms
 }
 
 String MessageFactory::generate(std::shared_ptr<Message> msg) {
-  String addressee = msg->getAddressee();
-  for (int i = addressee.length(); i < 9; i++) {
-    addressee += ' ';
-  }
-  String id_str;
+  std::stringstream stream;
+  stream << std::setw(9) << std::setfill(' ') << std::left << msg->getAddressee().c_str();
+  stream << ':';
+  stream << msg->getText().c_str();
+
   if (msg->isIdSet()) {
-    id_str = "{";
-    String id(msg->getId());
-    for (int i = id.length(); i < 3; i++) {
-      id = '0' + id;
-    }
-    id_str += id;
+    stream << '{';
+    stream << std::setw(3) << std::setfill('0') << std::right << msg->getId();
   }
-  return addressee + ":" + msg->getText() + id_str;
+
+  return String(stream.str().c_str());
 }
 
 } // namespace aprs
