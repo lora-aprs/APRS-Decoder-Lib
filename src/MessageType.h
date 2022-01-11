@@ -9,13 +9,13 @@ public:
   enum Value : uint8_t
   {
     PositionWithoutTimestamp, // = and !
-    PositionWithTimestamp,    // @ and /
-    Status,                   // >
-    Query,                    // ?
-    Message,                  // :
-    Weather,                  // _
-    Telemetry,                // T
-    CurrentMicEData,          // `
+    // PositionWithTimestamp,    // @ and /
+    // Status,                   // >
+    // Query,                    // ?
+    Message, // :
+    // Weather,                  // _
+    // Telemetry,                // T
+    // CurrentMicEData,          // `
     // you can add more types ;)
     Error,
   };
@@ -28,7 +28,7 @@ public:
     case '!':
       _value = PositionWithoutTimestamp;
       break;
-    case '@':
+    /*case '@':
     case '/':
       _value = PositionWithTimestamp;
       break;
@@ -37,11 +37,11 @@ public:
       break;
     case '?':
       _value = Query;
-      break;
+      break;*/
     case ':':
       _value = Message;
       break;
-    case '_':
+    /*case '_':
       _value = Weather;
       break;
     case 'T':
@@ -49,7 +49,7 @@ public:
       break;
     case '`':
       _value = CurrentMicEData;
-      break;
+      break;*/
     default:
       _value = Error;
     }
@@ -71,20 +71,20 @@ public:
     switch (_value) {
     case PositionWithoutTimestamp:
       return "Position Without Timestamp";
-    case PositionWithTimestamp:
+    /*case PositionWithTimestamp:
       return "Position With Timestamp";
     case Status:
       return "Status";
     case Query:
-      return "Query";
+      return "Query";*/
     case Message:
       return "Message";
-    case Weather:
+    /*case Weather:
       return "Weather";
     case Telemetry:
       return "Telemetry";
     case CurrentMicEData:
-      return "Current Mic-E Data";
+      return "Current Mic-E Data";*/
     default:
       return "Error";
     }
@@ -94,20 +94,20 @@ public:
     switch (_value) {
     case PositionWithoutTimestamp:
       return "=";
-    case PositionWithTimestamp:
+    /*case PositionWithTimestamp:
       return "@";
     case Status:
       return ">";
     case Query:
-      return "?";
+      return "?";*/
     case Message:
       return ":";
-    case Weather:
+    /*case Weather:
       return "_";
     case Telemetry:
       return "T";
     case CurrentMicEData:
-      return "`";
+      return "`";*/
     default:
       return "E";
     }
@@ -120,16 +120,6 @@ public:
 private:
   Value _value;
 };
-
-/*
-APRSMessageTypes getAPRSMessageType(const char type_char) const;
-String getAPRSMessageTypeName(const APRSMessageTypes type) const;
-
-enum class APRSPositionTypes
-{
-        WithMessage,	// = and @
-        NoMessage,		// ! and /
-};*/
 
 } // namespace aprs
 
