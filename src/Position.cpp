@@ -17,7 +17,7 @@ double Position::getLatitude() const {
 }
 
 void Position::setLatitude(const double latitude) {
-  _latitude = latitude;
+  _latitude = std::max(-90.0, std::min(90.0, latitude));
 }
 
 double Position::getLongitude() const {
@@ -25,7 +25,7 @@ double Position::getLongitude() const {
 }
 
 void Position::setLongitude(const double longitude) {
-  _longitude = longitude;
+  _longitude = std::max(-180.0, std::min(180.0, longitude));
 }
 
 String Position::getText() const {
