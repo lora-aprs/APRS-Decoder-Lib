@@ -11,6 +11,12 @@ public:
   Position();
   ~Position();
 
+  char getTableId() const;
+  void setTableId(const char tableId);
+
+  char getCode() const;
+  void setCode(const char code);
+
   double getLatitude() const;
   void   setLatitude(const double latitude);
 
@@ -30,6 +36,8 @@ public:
   bool isAltitudeSet() const;
 
 private:
+  char         _tableId;
+  char         _code;
   double       _latitude;
   double       _longitude;
   String       _text;

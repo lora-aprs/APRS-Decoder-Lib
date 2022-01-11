@@ -6,10 +6,26 @@
 
 namespace aprs {
 
-Position::Position() : Header(MessageType::PositionWithoutTimestamp), _latitude(0), _longitude(0), _speed(0), _course(0), _speedAndCourseSet(false), _altitude(0), _altitudeSet(false) {
+Position::Position() : Header(MessageType::PositionWithoutTimestamp), _tableId('/'), _code('-'), _latitude(0), _longitude(0), _speed(0), _course(0), _speedAndCourseSet(false), _altitude(0), _altitudeSet(false) {
 }
 
 Position::~Position() {
+}
+
+char Position::getTableId() const {
+  return _tableId;
+}
+
+void Position::setTableId(const char tableId) {
+  _tableId = tableId;
+}
+
+char Position::getCode() const {
+  return _code;
+}
+
+void Position::setCode(const char code) {
+  _code = code;
 }
 
 double Position::getLatitude() const {
@@ -74,8 +90,12 @@ void PositionFactory::generate(const String &textMsg, std::shared_ptr<Position> 
   String lat = textMsg.substring(0, 8);
   msg->setLatitude(NMEA2double(lat));
 
+  msg->setTableId(textMsg[8]);
+
   String lon = textMsg.substring(9, 18);
   msg->setLongitude(NMEA2double(lon));
+
+  msg->setCode(textMsg[18]);
 
   msg->setText(textMsg.substring(19));
 }
@@ -83,9 +103,9 @@ void PositionFactory::generate(const String &textMsg, std::shared_ptr<Position> 
 String PositionFactory::generate(std::shared_ptr<Position> msg) {
   std::stringstream stream;
   stream << double2NMEALat(msg->getLatitude()).c_str();
-  stream << "/";
+  stream << msg->getTableId();
   stream << double2NMEALong(msg->getLongitude()).c_str();
-  stream << "-";
+  stream << msg->getCode();
   if (msg->isSpeedAndCourseSet()) {
     stream << std::setfill('0') << std::setw(3) << msg->getCourse();
     stream << "/";

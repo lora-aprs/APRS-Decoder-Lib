@@ -26,9 +26,11 @@ void PositionFactory_double2NMEA() {
 }
 
 void FactoryPositionIn1() {
-  String                          msg = "AB1CDE-10>APRS:=1234.12N/12345.12E-QTH von AB1CDE";
+  String                          msg = "AB1CDE-10>APRS:=1234.12NA12345.12E#QTH von AB1CDE";
   std::shared_ptr<aprs::Position> pos = std::static_pointer_cast<aprs::Position>(aprs::Factory::generate(msg));
   TEST_ASSERT_TRUE(pos->getType() == aprs::MessageType::PositionWithoutTimestamp);
+  TEST_ASSERT_EQUAL('A', pos->getTableId());
+  TEST_ASSERT_EQUAL('#', pos->getCode());
   TEST_ASSERT_EQUAL_STRING("AB1CDE-10", pos->getSource().c_str());
   TEST_ASSERT_EQUAL_STRING("APRS", pos->getDestination().c_str());
   TEST_ASSERT_EQUAL_DOUBLE(12.56866666666666666667, pos->getLatitude());
@@ -56,8 +58,10 @@ void FactoryPositionOut1() {
   pos->setDestination("APRS");
   pos->setLatitude(12.56866666666666666667);
   pos->setLongitude(123.752);
+  pos->setTableId('A');
+  pos->setCode('#');
   pos->setText("QTH von AB1CDE");
-  TEST_ASSERT_EQUAL_STRING("AB1CDE-10>APRS:=1234.12N/12345.12E-QTH von AB1CDE", aprs::Factory::generate(pos).c_str());
+  TEST_ASSERT_EQUAL_STRING("AB1CDE-10>APRS:=1234.12NA12345.12E#QTH von AB1CDE", aprs::Factory::generate(pos).c_str());
 }
 
 void FactoryPositionOut2() {
