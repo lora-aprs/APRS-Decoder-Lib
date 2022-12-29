@@ -14,7 +14,7 @@ public:
     // Query,                    // ?
     Message, // :
     // Weather,                  // _
-    // Telemetry,                // T
+    Telemetry,                // T
     // CurrentMicEData,          // `
     // you can add more types ;)
     Error,
@@ -43,11 +43,11 @@ public:
       break;
     /*case '_':
       _value = Weather;
-      break;
+      break;*/
     case 'T':
       _value = Telemetry;
       break;
-    case '`':
+    /*case '`':
       _value = CurrentMicEData;
       break;*/
     default:
@@ -80,10 +80,10 @@ public:
     case Message:
       return "Message";
     /*case Weather:
-      return "Weather";
+      return "Weather";*/
     case Telemetry:
       return "Telemetry";
-    case CurrentMicEData:
+    /*case CurrentMicEData:
       return "Current Mic-E Data";*/
     default:
       return "Error";
@@ -103,10 +103,10 @@ public:
     case Message:
       return ":";
     /*case Weather:
-      return "_";
+      return "_";*/
     case Telemetry:
       return "T";
-    case CurrentMicEData:
+    /*case CurrentMicEData:
       return "`";*/
     default:
       return "E";
