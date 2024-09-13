@@ -6,8 +6,7 @@
 namespace aprs {
 class MessageType {
 public:
-  enum Value : uint8_t
-  {
+  enum Value : uint8_t {
     PositionWithoutTimestamp, // = and !
     // PositionWithTimestamp,    // @ and /
     // Status,                   // >
@@ -56,12 +55,15 @@ public:
   // cppcheck-suppress noExplicitConstructor
   constexpr MessageType(Value aType) : _value(aType) {
   }
+
   constexpr bool operator==(MessageType a) const {
     return _value == a._value;
   }
+
   constexpr bool operator!=(MessageType a) const {
     return _value != a._value;
   }
+
   explicit operator bool() const {
     return _value != Error;
   }
