@@ -20,9 +20,7 @@ public:
     Error,
   };
 
-  MessageType() : _value(Error) {
-  }
-
+  // cppcheck-suppress noExplicitConstructor
   MessageType(char type) {
     switch (type) {
     case '=':
