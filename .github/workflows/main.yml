@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
       - name: Install PlatformIO
         run: python -m pip install --upgrade pip platformio
       - run: platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high --skip-packages
@@ -22,9 +22,9 @@ jobs:
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v2
+#        uses: actions/checkout@v4
 #      - name: Set up Python
-#        uses: actions/setup-python@v2
+#        uses: actions/setup-python@v5
 #      - name: Install PlatformIO
 #        run: python -m pip install --upgrade pip platformio
 #      - run: platformio ci --lib="." --board=ttgo-lora32-v1 --board=d1_mini examples/basic_decode
@@ -33,9 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
       - name: Install PlatformIO
         run: python -m pip install --upgrade pip platformio
       - run: platformio test -e native
@@ -45,9 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Run clang-format style check for C/C++ programs.
-        uses: jidicula/clang-format-action@v3.5.1
+        uses: jidicula/clang-format-action@v4.10.2
         with:
-          clang-format-version: '11'
+          clang-format-version: '14'
           check-path: src
